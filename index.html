@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ganghyeon Lee</title>
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-bg: #fafaf9;
+            --card-bg: #ffffff;
+            --text-primary: #1a1a1a;
+            --text-secondary: #666666;
+            --accent-color: #4a5568;
+            --border-color: #e5e5e5;
+            --hover-bg: #f5f5f4;
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+            line-height: 1.7;
+            color: var(--text-primary);
+            background: linear-gradient(135deg, #fafaf9 0%, #f5f5f4 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            display: flex;
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 60px 40px;
+            gap: 80px;
+        }
+
+        .sidebar {
+            width: 240px;
+            flex-shrink: 0;
+            position: sticky;
+            top: 60px;
+            height: fit-content;
+        }
+
+        .profile-card {
+            background: var(--card-bg);
+            border-radius: 24px;
+            padding: 24px;
+            box-shadow: var(--shadow-lg);
+            backdrop-filter: blur(10px);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .profile-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+        }
+
+        .profile-photo {
+            width: 100%;
+            height: 240px;
+            background: linear-gradient(135deg, #e0e0e0 0%, #d0d0d0 100%);
+            border-radius: 16px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow-md);
+            position: relative;
+        }
+
+        .profile-photo::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, transparent 60%, rgba(0,0,0,0.1));
+        }
+
+        .profile-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .sidebar h1 {
+            font-size: 1.5em;
+            margin-bottom: 6px;
+            font-weight: 600;
+            color: var(--text-primary);
+            letter-spacing: -0.02em;
+        }
+
+        .sidebar .title {
+            font-size: 0.9em;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid var(--border-color);
+            font-weight: 500;
+        }
+
+        .contact-info {
+            margin-top: 0;
+        }
+
+        .contact-info h3 {
+            font-size: 0.9em;
+            margin-bottom: 12px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .contact-item {
+            margin: 12px 0;
+            padding: 10px;
+            border-radius: 8px;
+            transition: background-color 0.2s ease;
+        }
+
+        .contact-item:hover {
+            background-color: var(--hover-bg);
+        }
+
+        .contact-label {
+            font-size: 0.75em;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 4px;
+            font-weight: 600;
+        }
+
+        .contact-info a {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-size: 0.75em;
+            transition: color 0.2s ease;
+            display: inline-block;
+        }
+
+        .contact-info a:hover {
+            color: var(--accent-color);
+        }
+
+        .main-content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        section {
+            margin-bottom: 60px;
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: var(--shadow-md);
+            transition: box-shadow 0.3s ease;
+        }
+
+        section:hover {
+            box-shadow: var(--shadow-lg);
+        }
+
+        h2 {
+            font-size: 1.5em;
+            margin-bottom: 32px;
+            font-weight: 700;
+            color: var(--text-primary);
+            position: relative;
+            padding-bottom: 16px;
+            letter-spacing: -0.02em;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(to right, var(--accent-color), transparent);
+            border-radius: 2px;
+        }
+
+        .section-content {
+            padding-left: 0;
+        }
+
+        .item {
+            margin-bottom: 32px;
+            padding: 24px;
+            border-radius: 12px;
+            background: var(--primary-bg);
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+        }
+
+        .item:hover {
+            background: var(--hover-bg);
+            border-left-color: var(--accent-color);
+            transform: translateX(4px);
+        }
+
+        .item:last-child {
+            margin-bottom: 0;
+        }
+
+        .item-title {
+            font-weight: 600;
+            font-size: 1.0em;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+            letter-spacing: -0.01em;
+        }
+
+        .item-subtitle {
+            color: var(--text-secondary);
+            font-size: 0.8em;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .item-date {
+            color: var(--text-secondary);
+            font-size: 0.8em;
+            font-weight: 500;
+            display: inline-block;
+            padding: 4px 12px;
+            background: var(--card-bg);
+            border-radius: 6px;
+            margin-top: 4px;
+        }
+
+        .item-description {
+            margin-top: 12px;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            font-size: 0.8em;
+        }
+
+        .research-interests {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            padding-left: 0;
+        }
+
+        .interest-tag {
+            background: linear-gradient(135deg, #4a5568 0%, #2d3748 100%);
+            color: #fff;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-size: 0.9em;
+            font-weight: 500;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.3s ease;
+            letter-spacing: 0.02em;
+        }
+
+        .interest-tag:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .publication-list {
+            list-style: none;
+            counter-reset: publication-counter;
+        }
+
+        .publication-list li {
+            counter-increment: publication-counter;
+            margin-bottom: 24px;
+            padding: 20px 20px 20px 45px;
+            position: relative;
+            background: var(--primary-bg);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .publication-list li:hover {
+            background: var(--hover-bg);
+            transform: translateX(4px);
+        }
+
+        .publication-list li::before {
+            content: "[" counter(publication-counter) "]";
+            position: absolute;
+            left: 16px;
+            font-weight: 700;
+            color: var(--accent-color);
+            font-size: 0.9em;
+        }
+
+        footer {
+            margin-top: 80px;
+            padding: 32px;
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.85em;
+            background: var(--card-bg);
+            border-radius: 20px;
+            box-shadow: var(--shadow-md);
+        }
+
+        footer p {
+            margin: 8px 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        .intro-banner {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            color: white;
+            padding: 48px 40px;
+            border-radius: 20px;
+            margin-bottom: 40px;
+            box-shadow: var(--shadow-lg);
+            line-height: 1.8;
+            font-size: 1.05em;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .intro-banner::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="40" fill="rgba(255,255,255,0.05)"/></svg>');
+            opacity: 0.3;
+        }
+
+        .intro-banner p {
+            position: relative;
+            z-index: 1;
+            margin: 0;
+            font-weight: 400;
+        }
+
+        .intro-banner strong {
+            font-weight: 600;
+        }
+
+        .intro-banner a {
+            color: white;
+            text-decoration: underline;
+            text-decoration-thickness: 2px;
+            text-underline-offset: 3px;
+            transition: opacity 0.2s ease;
+        }
+
+        .intro-banner a:hover {
+            opacity: 0.8;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .intro-banner {
+            animation: fadeInDown 0.6s ease-out;
+        }
+
+        section {
+            animation: fadeInUp 0.6s ease-out backwards;
+        }
+
+        section:nth-child(1) { animation-delay: 0.1s; }
+        section:nth-child(2) { animation-delay: 0.2s; }
+        section:nth-child(3) { animation-delay: 0.3s; }
+        section:nth-child(4) { animation-delay: 0.4s; }
+        section:nth-child(5) { animation-delay: 0.5s; }
+        section:nth-child(6) { animation-delay: 0.6s; }
+
+        @media (max-width: 968px) {
+            .container {
+                flex-direction: column;
+                gap: 40px;
+                padding: 40px 20px;
+            }
+
+            .intro-banner {
+                padding: 32px 24px;
+                font-size: 1em;
+                margin-bottom: 32px;
+            }
+
+            .sidebar {
+                width: 100%;
+                position: relative;
+                top: 0;
+            }
+
+            .profile-card {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+
+            .profile-photo {
+                width: 200px;
+                height: 267px;
+            }
+
+            .sidebar h1 {
+                font-size: 2em;
+            }
+
+            .contact-info {
+                text-align: center;
+                width: 100%;
+            }
+
+            section {
+                padding: 32px 24px;
+            }
+
+            .item {
+                padding: 20px;
+            }
+
+            .research-interests {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .container {
+                padding: 24px 16px;
+            }
+
+            .intro-banner {
+                padding: 24px 20px;
+                font-size: 0.95em;
+                margin-bottom: 24px;
+            }
+
+            section {
+                padding: 24px 20px;
+            }
+
+            h2 {
+                font-size: 1.4em;
+            }
+
+            .profile-card {
+                padding: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Left Sidebar -->
+        <aside class="sidebar">
+            <div class="profile-card">
+                <div class="profile-photo">
+                    <img src="ganghyeon.jpeg" alt="프로필 사진">
+                </div>
+                <h1>Ganghyeon Lee</h1>
+                
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <div class="contact-label">📧 Email</div>
+                        <a href="mailto:ganghyeonlee1031@gmail.com">ganghyeonlee1031@gmail.com</a>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-label">👾 GitHub</div>
+                        <a href="https://github.com/ganghyeon1ee" target="_blank">github.com/ganghyeon1ee</a>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-label">🔗 LinkedIn</div>
+                        <a href="https://www.linkedin.com/in/%EA%B0%95%ED%98%84-%EC%9D%B4-198926285" target="_blank">linkedin.com/in/ganghyeonlee</a>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+
+        <!-- Introduction Banner -->
+        <div class="intro-banner">
+            <p>
+                I'm Ganghyeon Lee, an undergraduate student at Sungshin Women's University.<br>
+                My research interests focus on human-centered AI and large language models.<br>
+                I am currently working as an intern at <a href="https://sites.google.com/view/datasciencelab/" target="_blank">DSAIL@SKKU</a>! 🚀
+            </p>
+        </div>
+
+        <section id="research-interest">
+            <h2>Research Interest</h2>
+            <div class="research-interests">
+                <span class="interest-tag">Human-Centered AI</span>
+                <span class="interest-tag">Large Language Models</span>
+            </div>
+        </section>
+
+        <section id="education">
+            <h2>Education</h2>
+            <div class="section-content">
+                <div class="item">
+                    <div class="item-title">B.S. in Artificial Intelligence & Intelligent IoT</div>
+                    <div class="item-subtitle">
+                        Sungshin Women's University
+                    </div>
+                    <div class="item-date">Mar 2022 – Present</div>
+                </div>
+            </div>
+        </section>
+
+        <section id="research-project">
+            <h2>Research Project</h2>
+            <div class="section-content">
+                <div class="item">
+                    <div class="item-title">Metaverse Therapy Platform for Social Deficits</div>
+                    <div class="item-subtitle">Gyeonggi Future Generation Foundation</div>
+                    <div class="item-date">Feb 2025 – Nov 2025</div>
+                    <div class="item-description">
+                        Designed a Unity-based VR therapy system with LLM-powered therapeutic agents (RAG).
+                    </div>
+                </div>
+                
+                <div class="item">
+                    <div class="item-title">Personalized Voice Phishing Detection System</div>
+                    <div class="item-subtitle">Hanium Dream-Up</div>
+                    <div class="item-date">Feb 2025 – Oct 2025</div>
+                    <div class="item-description">
+                        Built an LLM-based call analysis pipeline for personalized phishing detection.
+                    </div>
+                </div>
+                
+                <div class="item">
+                    <div class="item-title">Text-based Recommendation System with LLMs</div>
+                    <div class="item-subtitle">Undergraduate Research Opportunity Program, Sungshin Women’s University </div>
+                    <div class="item-date">Sep 2024 – Dec 2024</div>
+                    <div class="item-description">
+                        Developed prompt strategies and fine-tuned LLMs for personalized recommendations.
+                    </div>
+                </div>
+
+                <div class="item">
+                    <div class="item-title">NAVER AI RUSH 2024</div>
+                    <div class="item-date">Jul 2024 – Sep 2024</div>
+                    <div class="item-description">
+                        Planned and developed AI service prototypes using HyperCLOVA X, focusing on AI-based communication tools.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="honors-awards">
+            <h2>Honors & Awards</h2>
+            <div class="section-content">
+                <div class="item">
+                    <div class="item-title">Academic Excellence Scholarship</div>
+                    <div class="item-subtitle">Sungshin Women's University</div>
+                    <div class="item-date">Awarded for 4 consecutive semesters (Fall 2023 – Spring 2025)</div>
+                </div>          
+        </section>
+    <!-- 
+        <section id="publication">
+            <h2>Publication</h2>
+            <div class="section-content">
+                <ul class="publication-list">
+                    <li>
+                        <strong>Work in progress — results coming soon</strong>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="patent-software">
+            <h2>Patent & Software</h2>
+            <div class="section-content">
+                <div class="item">
+                    <div class="item-title">Work in Progress</div>
+                    <div class="item-subtitle">Ideas are being shaped into patents and software.</div>
+                    <div class="item-date">Stay tuned</div>
+                </div>
+            </div>
+        </section>
+        -->
+
+        <footer>
+            <p>&copy; 2026 Ganghyeon Lee. All rights reserved.</p>
+            <p>Last updated: January 2026</p>
+        </footer>
+        </main>
+    </div>
+</body>
+</html>
